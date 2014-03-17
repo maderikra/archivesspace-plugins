@@ -1,0 +1,7 @@
+
+<% if controller.controller_name == 'accessions' && controller.action_name != 'new' %>
+  <%= javascript_include_tag "#{@base_url}/assets/sortlist.js" %>
+<% end %>
+<% if controller.controller_name == 'resources' && controller.action_name != 'new' %>
+  <%= javascript_include_tag "#{@base_url}/assets/sortlist.js" %>
+<% end %>
