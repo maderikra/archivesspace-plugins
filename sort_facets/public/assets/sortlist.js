@@ -83,5 +83,6 @@ $myjq('li.sortsubjects').sortElements(function(a, b){
 
 $myjq(document).ready(addclasses);
 $myjq(window).load(rewriteList);
+//reset jquery library
 $ = $myjq.noConflict();
 
