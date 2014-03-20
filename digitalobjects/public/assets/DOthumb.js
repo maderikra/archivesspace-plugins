@@ -38,7 +38,7 @@ if (window.location.href.indexOf("digital_objects") > -1) {
 		else if (digobj.indexOf("archive.org") > -1) {
 	
 			//parse digital object URL to get ark ID
-	     	var urlparts = digobj.split("/");
+	         	var urlparts = digobj.split("/");
 			var arkID = urlparts[4];
 			//call the archive.org API to get the metedata for the record; callback function is above (jsonfunc)
 			 $.ajax({
