@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <script src="http://code.jquery.com/jquery-1.10.2.min.js" type="text/javascript"></script>
-<title>VMI ArchivesSpace</title>
+<title>ArchivesSpace</title>
 <style type="text/css">
 
 body {
@@ -117,15 +117,20 @@ var refurl = document.referrer;
 document.write("<div id=\"footer\"><em>" + refurl + "</em></div>");
 //get rid of fieldset tag, which is causing a page break when printing in FF
 $('fieldset').contents().unwrap().wrap('<div id="maincontent"/>');
-
+//remove raw content, we really only need to see the formatted stuff when printing
 $("[id*='raw']").css('display', 'none');
-$("[href*='parsed']").parent().css('display', 'none');
 $("[href*='raw']").parent().css('display', 'none');
+//don't need the formatted link either, just the content itself
+$("[href*='parsed']").parent().css('display', 'none');
+//resizes tiny headers back to normal
 $('h5').contents().unwrap().wrap('<div style="font-weight:bold;" class="control-group"/>');
+//formats tree
 $("[href*='#tree::']").contents().unwrap();
 $('.jstree-icon').remove();
 $('#treestyle').prepend("<h4>Archival Tree</h4>");
+//aligns text that has a popovericon
 $('.has-popover').contents().unwrap().wrap('<div class="controls label-only" />');
+//removes accordion window header, since this just duplicates the actual content below it
 $('.accordion-heading').remove();
 
 $( ".tree-node-text" ).each(function() {
