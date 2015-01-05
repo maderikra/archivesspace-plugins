@@ -17,7 +17,8 @@ class Sequence1
 
         DB.attempt {
           init(sequence, 0)
-          return 0
+           #if there is no existing record for this sequence, it's the first accession of the year, so go ahead and return "1"
+		        return 1
         }.and_if_constraint_fails {
           # Sequence is already defined, which is fine
         }
