@@ -1,0 +1,4 @@
+en:
+  enumerations:
+    subject_source:
+      fast: FAST (Faceted Application of Subject Terminology)
