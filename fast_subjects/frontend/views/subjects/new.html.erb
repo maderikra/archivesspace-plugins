@@ -1,0 +1,85 @@
+  <%= javascript_include_tag "#{@base_url}/assets/fastsubjects.js" %>
+
+
+ <%# when using https, paths to OCLC scripts must not contain "http", as browsers don't like loading mixed content %>
+
+ <%# this seems to work okay in Chrome, but in Firefox you may still have to tell the brower to override protection and load mixed content %>
+
+
+ <%= javascript_include_tag "//experimental.worldcat.org/fast/assignfast/js/opensocial-jquery.min.js" %>
+ <%= javascript_include_tag "//experimental.worldcat.org/fast/assignfast/js/jquery-ui.min.js" %>
+ <%= javascript_include_tag "//experimental.worldcat.org/fast/assignfast/js/assignFASTGadget.js" %>
+ <%= javascript_include_tag "#{@base_url}/assets/assignFASTComplete.js" %>
+ 
+ 
+ <link rel="stylesheet" type="text/css" href="//experimental.worldcat.org/fast/assignfast/css/jquery-ui.css" /> 
+    <link rel="stylesheet" type="text/css" href="//experimental.worldcat.org/fast/assignfast/css/assignfast.css" />
+    <link rel="stylesheet" type="text/css" href="//experimental.worldcat.org/fast/assignfast/css/assignfastgadget.css" />
+
+
+<style type="text/css">
+.assignBoxField {width:300px;}
+#asbutton {font-size:0.8em;}
+</style>
+<div style="float:left;padding:20px 0px;">
+
+     	<fieldset id="breakerBoxField" class="assignBoxField" >
+					<h4 class="assignTitle" style="margin-top:0;" >FAST Subject Lookup</h4>
+<a href="http://experimental.worldcat.org/landing/index.html" target="_blank"><img width="175" src="http://experimental.worldcat.org/fast/assignfast/images/banner_wcexper.png"  alt="oclc experimental" /></a>                    
+                    </div>
+                    <div style="float:left;padding:20px 0px;width:300px;">
+					<span id="breakerFacetList">marcFacetList</span><!--replaced with a drop down -->
+			   	<br/><span id="breakerXtra">&nbsp;</span></div> <div style="float:left;padding:20px 0px;width:300px;">
+					<div class="ui-widget">
+					<form action="/subjects/new">
+<input type="submit" id="asbutton"   value="Add to ArchivesSpace" />
+
+<input id="breakerbox" name="breakerbox"  class="assignBox" type="text" size="60"></input>
+
+
+
+					<!--   <input id="breakerClearBtn" type="submit" value="Clear" onclick="clearInput('breakerbox');clearText('breakerXtra','&nbsp;'); return false;" /> -->
+			</form>
+</div>					
+                    </div>
+				</fieldset>
+
+
+<script type="text/javascript">
+//gadgets.util.registerOnLoadHandler(init);
+//var prefs = new gadgets.Prefs();
+//var displayType = prefs.getString("displayType");
+setUp("Breaker");
+</script>
+
+
+
+
+
+<%= setup_context :object => @subject %>
+
+<%= form_for @subject, :as => "subject", :url => {:action => :create}, :html => {:class => 'form-horizontal aspace-record-form'} do |f| %>
+  <%= form_context :subject, @subject do |form| %>
+    <div class="row">
+      <div class="col-md-3">
+        <%= render_aspace_partial :partial => "sidebar" %>
+      </div>
+      <div class="col-md-9">
+        <%= render_aspace_partial :partial => "shared/toolbar_new_records" %>
+        <div class="record-pane">
+          <%= link_to_help :topic => "subject" %>
+          <h2><%= I18n.t("actions.new_prefix") %> <%= I18n.t("subject._singular") %>  <span class="label label-info"><%= I18n.t("subject._singular") %></span></h2>
+          <br/>
+          <%= render_aspace_partial :partial => "subjects/form", :locals => {:form => form} %>
+          <div class="form-actions">
+            <div class="btn-group">
+              <button type="submit" class="btn btn-primary"><%= I18n.t("subject._frontend.action.save") %></button>
+              <button type="submit" id="createPlusOne" name="plus_one" class="btn btn-primary createPlusOneBtn"><%= I18n.t("actions.save_plus_one") %></button>
+            </div>
+            <%= link_to I18n.t("actions.cancel"), :back, :class => "btn btn-cancel btn-default" %>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+<% end %>
