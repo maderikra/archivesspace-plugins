@@ -14,4 +14,4 @@ After the user selects the desired FAST heading, it's converted to MARCBreaker f
 <hr />
 Which  is then parsed via JavaScript into the appropriate fields on the web form:
 
-![Final Screen View](https://cloud.githubusercontent.com/assets/6333132/8282946/0aa76158-18c2-11e5-857a-69c78e4a6801.png)
+![Final Screen View](https://cloud.githubusercontent.com/assets/6333132/8283102/38d9b21e-18c3-11e5-943a-9c9001847e2c.png)
