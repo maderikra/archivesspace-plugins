@@ -13,8 +13,8 @@ if (window.location.href.indexOf("digital_objects") > -1) {
 		//get URL of digital object
 		digobj = $("#file_versions").find("a").html();
 
-		//check to see if it's a contentDM record
-		if ((cdmsite != "") && (digobj.indexOf(cdmsite) > -1)) {
+		 //check to see if it's contentDM, and make sure it is a single record, not a link to an entire collection
+                 if ((cdmsite != "") && (digobj.indexOf(cdmsite) > -1) && (digobj.indexOf("cdm/ref") > -1) ) {
 	
 			//parse contentDM URL to get collection ID and record ID
 			var urlparts = digobj.split("/");
