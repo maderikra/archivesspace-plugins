@@ -1,6 +1,7 @@
 //insert hostname of your contentDM site here (e.g. "cdm15821.contentdm.oclc.org" or your alias)
 var cdmsite  = "";
-//if you want to only insert thumbnails for a specific CDM collection, insert the collection IDs here separated by a comma (e.g., "p15821coll3,p15821coll7")
+//if you want to only insert thumbnails for a specific CDM collection, insert the collection IDs here separated by a comma 
+//e.g., "p15821coll3,p15821coll7"
 //to enable for all CDM collections, leave empty
 var cdmcoll = "";
 
