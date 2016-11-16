@@ -21,7 +21,7 @@ if (window.location.href.indexOf("digital_objects") > -1) {
 			var urlparts = digobj.split("/");
 			var collID = urlparts[6];
 			var recID = urlparts[8];
-	     	//if we're on the right collection and there's a valud record ID, insert a thumbnail 
+	     	//if we're on the right collection and there's a valid record ID, insert its thumbnail 
 			if (((cdmcoll.indexOf(collID) > -1) || (cdmcoll == "")) && (typeof recID !== "undefined")) {
 			
 				//set thumbnail URL
