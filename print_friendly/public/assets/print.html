@@ -1,125 +1,101 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
+
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <script src="http://code.jquery.com/jquery-1.10.2.min.js" type="text/javascript"></script>
-<title>VMI ArchivesSpace</title>
-<style type="text/css">
-
-body {
-font-family:Arial, Helvetica, sans-serif;
-}
-
-h3{
-margin-top:50px;
-border-top: 3px solid #000;
-border-bottom: 1px dotted #000;
-}
-
-
-  dt {
-    float: left;
-    clear: left;
-    width:200px;
-    text-align: right;
-    font-weight: bold;
-  }
-
-dt +  dd {
-    margin: 0 0 0 225px;
-    padding: 0 0 0.5em 0;
-  }
-
-.results-list{
-list-style-type:none;
-padding-left:0;
-}
-
-#contentstyle {
-font-size:0.8em;
+    <title>VMI ArchivesSpace</title>
+    <style type="text/css">
+        body {
+            font-family: Arial, Helvetica, sans-serif;
         }
-
-#maincontent{
-margin-bottom:50px;
-}
-
-
-
-
-#footer {
-text-align:center;
-font-size:0.8em;
-
+        h3 {
+            margin-top: 50px;
+            border-top: 3px solid #000;
+            border-bottom: 1px dotted #000;
         }
-
-.btn-group {
-        display:none;
-}
-
-h4 .span3 {
-        display:none;
-}
-
-.component-view {
-border:0;
-}
-
-
-.form-horizontal{
-border:0;
-margin-top:0px;
-}
-
-.result.striped, .result.unstriped {
-}
-
-.hide {
-display:none;
-}
-
-#components_search {
-        display:none;
-}
-/*hide dropdown menus and pagination */
-.sort-by-action{
-                display:none;
-}
-.dropdown-menu{
-                display:none;
-}
-.pagination{
-                display:none;
-}
-
-
-
-
-
-</style>
+        dt {
+            float: left;
+            clear: left;
+            width: 200px;
+            text-align: right;
+            font-weight: bold;
+        }
+        dt + dd {
+            margin: 0 0 0 225px;
+            padding: 0 0 0.5em 0;
+        }
+        .results-list {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        #contentstyle {
+            font-size: 0.8em;
+        }
+        #maincontent {
+            margin-bottom: 50px;
+        }
+        #footer {
+            text-align: center;
+            font-size: 0.8em;
+        }
+        .btn-group {
+            display: none;
+        }
+        h4 .span3 {
+            display: none;
+        }
+        .component-view {
+            border: 0;
+        }
+        .form-horizontal {
+            border: 0;
+            margin-top: 0px;
+        }
+        .result.striped,
+        .result.unstriped {} .hide {
+            display: none;
+        }
+        #components_search {
+            display: none;
+        }
+        /*hide dropdown menus and pagination */
+        
+        .sort-by-action {
+            display: none;
+        }
+        .dropdown-menu {
+            display: none;
+        }
+        .pagination {
+            display: none;
+        }
+    </style>
 </head>
 
 <body>
-<div id="newcontent">
-<div id="header"><img src="/assets/vmiheader.png" /></div>
-<script language="javascript">
-//var contents = $(".title-pane .row-fluid .span9", window.opener.document);
-//var contents2 = $(".content-pane .row-fluid .span9", window.opener.document);
-//var contents = window.opener.document.querySelectorAll('.title-pane .row-fluid .span9');
-//var contents2 = window.opener.document.querySelectorAll('.content-pane .row-fluid .span9');
-var contents = window.opener.document.getElementById("print_title");
-document.write("<div id=\"titlestyle\">" + contents.innerHTML + "</div>");
-var contents2 = window.opener.document.getElementById("print_content");
-document.write("<div id=\"contentstyle\">" + contents2.innerHTML + "</div>");
-var refurl = document.referrer;
-document.write("<div id=\"footer\"><em>" + refurl + "</em></div>");
-//get rid of fieldset tag, which is causing a page break when printing in FF
-$('fieldset').contents().unwrap().wrap('<div id="maincontent"/>');
-//strip out style of digitalobjects thumbnail
-$('#thumbdiv').attr('style','');
-$('#summdiv').attr('style','');
-window.print();
-</script>
-</div>
+    <div id="newcontent">
+        <div id="header"><img src="/assets/vmiheader.png" />
+        </div>
+        <script language="javascript">
+            //var contents = $(".title-pane .row-fluid .span9", window.opener.document);
+            //var contents2 = $(".content-pane .row-fluid .span9", window.opener.document);
+            //var contents = window.opener.document.querySelectorAll('.title-pane .row-fluid .span9');
+            //var contents2 = window.opener.document.querySelectorAll('.content-pane .row-fluid .span9');
+            var contents = window.opener.document.getElementById("print_title");
+            document.write("<div id=\"titlestyle\">" + contents.innerHTML + "</div>");
+            var contents2 = window.opener.document.getElementById("print_content");
+            document.write("<div id=\"contentstyle\">" + contents2.innerHTML + "</div>");
+            var refurl = document.referrer;
+            document.write("<div id=\"footer\"><em>" + refurl + "</em></div>");
+            //get rid of fieldset tag, which is causing a page break when printing in FF
+            $('fieldset').contents().unwrap().wrap('<div id="maincontent"/>');
+            //strip out style of digitalobjects thumbnail
+            $('#thumbdiv').attr('style', '');
+            $('#summdiv').attr('style', '');
+            window.print();
+        </script>
+    </div>
 </body>
-</html>
 
+</html>
