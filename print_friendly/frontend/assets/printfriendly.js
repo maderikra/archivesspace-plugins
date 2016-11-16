@@ -13,5 +13,5 @@ if($("#printerbox").length == 0) {
 //adds ID to the section we want to print
 $( ".record-pane" ).attr( "id", "print_content" );
 //adds print link
-$( "#archivesSpaceSidebar").prepend( '<div id="printerbox" style=\"text-align:center\"><img src=\"/assets/printer_icon.png\"><a href=\"#\" onclick=\"window.open(\'/assets/print.html\')\">Print Friendly</a><$
+$( "#archivesSpaceSidebar").prepend( '<div id="printerbox" style=\"text-align:center\"><img src=\"/assets/printer_icon.png\"><a href=\"#\" onclick=\"window.open(\'/assets/print.html\')\">Print Friendly</a></div><br />' );
         }}
