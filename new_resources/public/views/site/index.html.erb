@@ -1,0 +1,24 @@
+<%=
+def jsonresults
+     uri = URI("http://localhost:8089/users/#{AppConfig[:new_resource_username]}/login")
+     response = Net::HTTP.post_form(uri, 'password' =>  AppConfig[:new_resource_password])
+     @session_token = JSON.parse(response.body)['session']
+     @auth_header = { 'X-ArchivesSpace-session' => @session_token }
+
+     recordtypes = AppConfig[:new_resource_record_types]
+     .map{|s| s.sub(/\A(?!primary_type:)/, "primary_type:")}
+     .join("%20OR%20")
+
+     uri = URI.parse("http://localhost:8089/repositories/3/search?page=1&page_size=#{AppConfig[:new_resource_display_number]}&sort=create_time+desc&simple_filter[]=(#{recordtypes})%20AND%20publish:true")
+     http = Net::HTTP.new(uri.host, uri.port)
+     request = Net::HTTP::Get.new(uri.request_uri)
+     request.initialize_http_header(@auth_header)
+     response = http.request(request)
+     jsonresults = JSON.parse(response.body)
+end
+%>
+
+<h4>Recently Added Resources</h4>
+<ul>
+<% jsonresults['results'].each do |entry| %><li><%= link_to entry['title'], entry['id'] %></li><% end %>
+</ul>
