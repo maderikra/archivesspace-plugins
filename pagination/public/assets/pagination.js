@@ -1,103 +1,136 @@
-//public side pagination
-var params = window.location.search;
 var lastpage = '';
 var curpage = '';
 
-//runs main function on document ready
+
+
 $(document).ready(fixpage);
+
+
 function fixpage() {	
 
-	
-//parse the URL to grab the search parameters being used, but remove the page number (we will be using this base URL to make the pagination links)
-params = params.split("&");
-for( var i = 0; i < params.length; i++ ) {
-if (params[i].indexOf("page") > -1)
-		{params.splice(i, 1);}
-}
-//strip off question mark
-while(params[0].charAt(0) === '?')
-  {params[0] = params[0].substr(1);}
-params = "&" + params.join("&");
 
-//find out how many pages there are by looking for a "last" link if it exists
-if ($(".pagination ul li a:contains('Last')").length > 0) {
-	var lastpageurl = $(".pagination ul li a:contains('Last')").attr("href");
-	var lastpageparts = (lastpageurl.split("="))[1];
-	lastpage = (lastpageparts.split("&"))[0];
-	}
-//if there is no "last" link, the last page will be in the second to last link (the last link is the forward button, although it is disabled when on the last page, it always exists in the DOM)
+//only run if pagination exists
+if ($(".pagination")[0]){
+
+
+//get search url from existing page links, and find out how many pages there are, look for a next link if it exists
+if ($(".pagination li a:contains('Next')").length > 0) {
+var lastpageurl = $(".pagination li").last().prev().find('a').attr('href');
+
+
+var pageposition = lastpageurl.indexOf("page=");
+searchurl = lastpageurl.substring(0,pageposition);
+
+
+var urllen = lastpageurl.length;
+var res = lastpageurl.substring(pageposition+5, urllen); 
+//find first non numeric character (to see where page number ends)
+var endnum = res.match(/\D/);
+if (endnum) {var lastchar = endnum[0];
+var wheretoend = res.indexOf(lastchar);
+
+if(wheretoend) {
+lastpage = res.substring(0,wheretoend);
+}
+else{
+lastpage = res;
+}
+}
+
+else {
+	lastpage = res;
+}
+
+
+}
+//otherwise, get it from the last link that's not active (i.e. not the current LI, which won't have a href)
 else { 
-	lastpage = $(".pagination ul li:nth-last-child(2)").text();
+lastpage = $(".pagination li:last a").text();
+var lastpageurl = $(".pagination li:not(.active):last a").attr("href");
+searchurl = lastpageurl.substring(0,lastpageurl.indexOf("page="));
 	}
 
 //find current page and saves as integer so we can do maths on it
-curpage = parseInt($(".pagination ul li.active a").html());
+curpage = parseInt($(".pagination li.active a").html());
+
 var nexpage = curpage + 1;
-var prevpage = curpage - 1;
+  var prevpage = curpage - 1;
 
-//remove default pagination
-$(".pagination").empty();
+//clear default pages
+//have to use tag selector because ArchivesSpace has invalid HTML (it uses the same ID twice on a page)
+$('div[id="paging"]').empty();
 //add new page scroll to top and bottom
-$(".pagination-small").append("<ul class='newpages'></ul>");
-$(".results-list").before("<div class='pagination pagination-small pagination-centered'><ul class='newpages'></ul></div>");
-//add reverse arrow if we're not on page 1
+$('div[id="paging"]:eq(0)').append("<ul class='newpages1 pager'></ul>");
+$('div[id="paging"]:eq(1)').append("<ul class='newpages2 pager'></ul>");
+//only add reverse arrow if we're not on page 1
 if (curpage != 1){
-	$(".newpages").append("<li><a style='margin-top:5px;' href='/search?page=" + prevpage + params + "'>&#171;</a></li>");
-	}
+$(".newpages1").append("<li><a style='margin-top:5px;' href='" + searchurl + "page=" + prevpage + "'>&#171;</a></li>");
+$(".newpages2").append("<li><a style='margin-top:5px;' href='" + searchurl + "page=" + prevpage + "'>&#171;</a></li>");
+}
 //add the page scroll box
-$(".newpages").append("<LI style='display:inline;font-size:0.9em;float:left;line-height:25px;height:25px;padding: 2px 10px;'>Page <input onKeyUp='enterform(event)' id='wantpage' style='width:25px;height:1.0em;margin-top:5px;' maxlength='10' type='text' value='" +  curpage + "'> of " +  lastpage + "</li>");
+$(".newpages1").append("<LI>Page <input onKeyUp='enterform(event,this)' id='wantpage1' style='width:25px' maxlength='10' type='text' value='" +  curpage + "'> of " +  lastpage + "</li>");
+$(".newpages2").append("<LI>Page <input onKeyUp='enterform(event,this)' id='wantpage2' style='width:25px' maxlength='10' type='text' value='" +  curpage + "'> of " +  lastpage + "</li>");
 
-//add the forward arrow if we're not on the last page
+
+//only add the forward arrow if we're not on the last page
 if (curpage != lastpage){
-	$(".newpages").append("<li><a style='margin-top:5px;border-width: 1px 1px 1px 1px;' href='/search?page=" + nexpage + params + "'>&#187;</a></li>");
-	}
+	$(".newpages1").append("<li><a style='margin-top:5px;border-width: 1px 1px 1px 1px;' href='" + searchurl + "page=" + nexpage + "'>&#187;</a></li>");
+        $(".newpages2").append("<li><a style='margin-top:5px;border-width: 1px 1px 1px 1px;' href='" + searchurl + "page=" + nexpage + "'>&#187;</a></li>");
 
-//make div for error message
-$(".pagination").after("<div class='pagerr' style='color:#ffffcc;padding:5px;background-color:ccc;display:none;margin:0 0 0 16%;position:absolute;-moz-border-radius: 5px;border-radius: 5px;background-color:rgba(153,0,0,0.8);'></div>");
+
+}
+
+//make error div
+$('div[id="paging"]').after("<div class='pagerr' style='z-index:1;color:#ffffcc;padding:5px;background-color:ccc;display:none;margin:0 0 0 16%;position:absolute;-moz-border-radius: 5px;border-radius: 5px;background-color:rgba(153,0,0);'></div>");
 
 //sends form when clicking outside input box
-$("#wantpage").blur(function () {
-	gotopage();
+$("#wantpage1").blur(function () {
+	gotopage(this);
 		});
+$("#wantpage2").blur(function () {
+        gotopage(this);
+                });
+
+
+
+}
 }
 
 //run gotopage function if the enter key is pressed while inside the form
-function enterform(event){
+function enterform(event,elem){
 	 if(event.keyCode == 13) {
-gotopage();
+gotopage(elem);
 }
 }
 
-//function to go to user-entered page
-function gotopage(){
-	//page the user wants to go to
-	var newpage = ($('#wantpage').val());
-	//last page (highest possible page value)
-	lastpage = parseInt(lastpage);
-	//first make sure there's something in the box; if not, stick the current page back in there and end the function
-    if (newpage == ''){$('#wantpage').val(curpage);$('#wantpage').blur();return false;}
-	//if the value is the same as the current page, do nothing
-	if (newpage == curpage){return false;}
-
-	//make sure the string has digits only
-	var numpattern = /^[0-9]+$/;
-	if (numpattern.test(newpage)) {
-		//make sure the entered number is not too big or too small
-		if (newpage > lastpage) {var errtype = "toobig"; errfunc(errtype);return false;}
-		else if (newpage < 1) {var errtype = "tootiny"; errfunc(errtype);return false;}
-		//if it's all good, send it on
-		else {window.location.href = 'http://archivesspace.vmi.edu:8081/search?page=' + newpage + params;}
-		}
-	//if it doesn't match the regex for digits only, run error function
-	else {var errtype = "notanum"; errfunc(errtype);return false;}
+function gotopage(elem){
+var newpage = ($(elem).val());
+lastpage = parseInt(lastpage);
+//first make sure there's something in the box; if not, stick the current page back in there and end the function
+if (newpage == ''){$(elem).val(curpage);$(elem).blur();return false;}
+//if the value is the same as the current page, do nothing
+if (newpage == curpage){return false;}
+//make sure the string has digits only
+var numpattern = /^[0-9]+$/;
+if (numpattern.test(newpage)) {
+	//make sure the entered number is not too big or too small
+	if (newpage > lastpage) {var errtype = "toobig"; errfunc(errtype);return false;}
+	else if (newpage < 1) {var errtype = "tootiny"; errfunc(errtype);return false;}
+	
+	//if it's all good, send it on, but remove any leading zeroes, which break ArchivesSpace
+	else {window.location.href = searchurl + 'page=' + parseInt(newpage, 10);}
 	}
+	
+//if it doesn't match the regex for digits only, run error function
+else {var errtype = "notanum"; errfunc(errtype);return false;}
+}
 
 
 function errfunc(errtype){
 	if (errtype == "toobig") {var errmess = "Page number must be less than " + lastpage;}
 	if (errtype == "tootiny") {var errmess = "Page number must be greater than zero";}
 	if (errtype == "notanum") {var errmess = "Please enter whole numbers only";}
-    $('.pagerr').html(errmess);
-    $('.pagerr').fadeIn(500);
+ $('.pagerr').html(errmess);
+ $('.pagerr').fadeIn(500);
 	
 	}
