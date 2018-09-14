@@ -1,4 +1,4 @@
-Plugin to display a list of newly published resources on the homepage of the public site.
+Plugin to display a list of newly published resources and digital objects on the homepage of the public site.
 
 Configuration
 ------------------
