@@ -8,7 +8,7 @@ def jsonresults
      .map{|s| s.sub(/\A(?!primary_type:)/, "primary_type:")}
      .join("%20OR%20")
 
-    uri = URI.parse("#{AppConfig[:backend_url]}/repositories/3/search?page=1&page_size=#{AppConfig[:new_resource_display_number]}&sort=create_time+desc&type[]=resource&type[]=digital_object&aq={\"query\":{\"op\":\"AND\",\"subqueries\":[{\"field\":\"published\",\"value\":true,\"jsonmodel_type\":\"boolean_field_query\"}],\"jsonmodel_type\":\"boolean_query\"},\"jsonmodel_type\":\"advanced_query\"}")
+    uri = URI.parse("#{AppConfig[:backend_url]}/repositories/#{AppConfig[:new_resource_repo]}/search?page=1&page_size=#{AppConfig[:new_resource_display_number]}&sort=create_time+desc&type[]=resource&type[]=digital_object&aq={\"query\":{\"op\":\"AND\",\"subqueries\":[{\"field\":\"published\",\"value\":true,\"jsonmodel_type\":\"boolean_field_query\"}],\"jsonmodel_type\":\"boolean_query\"},\"jsonmodel_type\":\"advanced_query\"}")
     http = Net::HTTP.new(uri.host, uri.port)
     request = Net::HTTP::Get.new(uri.request_uri)
     request.initialize_http_header(@auth_header)
